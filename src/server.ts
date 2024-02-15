@@ -1,6 +1,7 @@
 import { createServer } from "http";
 import { readFileSync } from "fs";
 import { resolve, extname } from "path";
+import mimeTypes from "./lib/mimeTypes";
 
 export default function server(filename?: string, port?: number) {
   createServer((request, response) => {
@@ -9,18 +10,6 @@ export default function server(filename?: string, port?: number) {
 
     let ext = filename ? extname(filename).slice(1) : "html";
 
-    let mimeTypes: { [key: string]: string } = {
-      txt: "text/plain",
-      htm: "text/html",
-      html: "text/html",
-      js: "application/javascript",
-      css: "text/css",
-      png: "image/png",
-      jpg: "image/jpeg",
-      jpeg: "image/jpeg",
-      svg: "image/svg+xml",
-      json: "application/json",
-    };
 
     contentType = mimeTypes[ext] || "application/octet-stream";
 
