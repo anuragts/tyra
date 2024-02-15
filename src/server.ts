@@ -1,40 +1,51 @@
 import { createServer } from "http";
 import { readFileSync } from "fs";
-import { resolve } from "path";
+import { resolve, extname } from "path";
 
 export default function server(filename?: string, port?: number) {
   createServer((request, response) => {
     let fileContents;
+    let contentType;
+
+    // Determine MIME type
+    let ext = filename ? extname(filename).slice(1) : "html";
+
+    // Mapping of file extention to MIME type
+    let mimeTypes: { [key: string]: string } = {
+      html: "text/html",
+      js: "application/javascript",
+      css: "text/css",
+      png: "image/png",
+      jpg: "image/jpeg",
+      jpeg: "image/jpeg",
+      svg: "image/svg+xml",
+    };
+
+    contentType = mimeTypes[ext] || "application/octet-stream";
+
     if (!filename) {
-      response.writeHead(200, { "Content-Type": "text/html" });
+      response.writeHead(200, { "Content-Type": contentType });
       fileContents = readFileSync(
-        resolve(__dirname, "static/tyra.html"),
+        resolve(__dirname, "static", "tyra.html"),
         "utf-8"
       );
-      response.write(fileContents);
-      response.end();
-      return;
+    } else {
+      try {
+        fileContents = readFileSync(resolve(__dirname, filename), "utf-8");
+      } catch (e) {
+        response.writeHead(404, { "Content-Type": "text/html" });
+        fileContents = readFileSync(
+          resolve(__dirname, "static", "404.html"),
+          "utf-8"
+        );
+        console.error(e);
+      }
     }
 
-    try {
-      fileContents = readFileSync(resolve(__dirname, filename), "utf-8");
-    } catch (e) {
-      response.writeHead(404, { "Content-Type": "text/html" });
-      fileContents = readFileSync(
-        resolve(__dirname, "static/404.html"),
-        "utf-8"
-      );
-      response.write(fileContents);
-      console.error(e);
-      response.end();
-      return;
-    }
-
-    response.writeHead(200, { "Content-Type": "text/html" });
+    response.writeHead(200, { "Content-Type": contentType });
     response.write(fileContents);
     response.end();
   }).listen(port || 3000);
 
-  // console.log(`Server running at http://127.0.0.1:3000/`);
   console.log(`Server running at http://localhost:${port || 3000}/`);
 }
