@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+    body {
+        background-color: #444;
+        color: white;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        text-align: center;
+    }
+    #hidden-content {
+        max-width: 800px;
+        margin: 50px auto 0;
+        display: none;
+        animation: fadein 2s;
+    }
+    @keyframes fadein {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+    .button {
+        display: inline-block;
+        background-color: deepskyblue;
+        color: white;
+        padding: 15px 30px;
+        margin-top: 30px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        animation: fadein 2s;
+    }
+    </style>
+    <title>Hello Company</title>
+</head>
+<body>
+    <h1>Hello Company</h1>
+    <p>Tyra is a minimal JavaScript runtime and module bundler.</p>
+    <a href="#" onclick="showMore()" class="button">Learn More</a>
+    <div id="hidden-content">
+        <p>This is hello company.</p>
+    </div>
+
+    <script>
+    function showMore() {
+        var hiddenContent = document.getElementById('hidden-content');
+        hiddenContent.style.display = 'block';
+    }
+    </script>
+</body>
+</html>
