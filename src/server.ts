@@ -10,6 +10,8 @@ export default function server(filename?: string, port?: number) {
     let ext = filename ? extname(filename).slice(1) : "html";
 
     let mimeTypes: { [key: string]: string } = {
+      txt: "text/plain",
+      htm: "text/html",
       html: "text/html",
       js: "application/javascript",
       css: "text/css",
@@ -17,6 +19,7 @@ export default function server(filename?: string, port?: number) {
       jpg: "image/jpeg",
       jpeg: "image/jpeg",
       svg: "image/svg+xml",
+      json: "application/json",
     };
 
     contentType = mimeTypes[ext] || "application/octet-stream";
