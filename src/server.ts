@@ -7,10 +7,8 @@ export default function server(filename?: string, port?: number) {
     let fileContents;
     let contentType;
 
-    // Determine MIME type
     let ext = filename ? extname(filename).slice(1) : "html";
 
-    // Mapping of file extention to MIME type
     let mimeTypes: { [key: string]: string } = {
       html: "text/html",
       js: "application/javascript",
